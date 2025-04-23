@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepo taskRepo;
+    private final IDService idService;
 
     public List<Task> getAllTasks() {
         return taskRepo.findAll();
