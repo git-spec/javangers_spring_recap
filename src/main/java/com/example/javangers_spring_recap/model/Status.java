@@ -1,7 +1,7 @@
 package com.example.javangers_spring_recap.model;
 
 public enum Status {
-    TODO,
-    DOING,
+    OPEN,
+    IN_PROGRESS,
     DONE
 }

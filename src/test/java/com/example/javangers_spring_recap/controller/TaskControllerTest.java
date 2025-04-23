@@ -26,7 +26,7 @@ public class TaskControllerTest {
     @Test
     void testGetAllTasks_shouldReturnListOfTasks_whenIsBeenCalled() throws Exception {
         // GIVEN
-        Task task = new Task("1", "blabla", Status.TODO);
+        Task task = new Task("1", "blabla", Status.OPEN);
         repo.save(task);
         // WHEN
         mockMvc.perform(MockMvcRequestBuilders.get("/api/tasks"))

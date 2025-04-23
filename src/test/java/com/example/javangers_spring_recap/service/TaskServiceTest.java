@@ -16,8 +16,8 @@ public class TaskServiceTest {
     TaskRepo mockRepo = Mockito.mock(TaskRepo.class);
     IDService mockID = Mockito.mock(IDService.class);
     TaskService service = new TaskService(mockRepo, mockID);
-    Task task = new Task("1", "blabla", Status.TODO);
-    TaskDTO taskDTO = new TaskDTO("blabla", Status.TODO);
+    Task task = new Task("1", "blabla", Status.OPEN);
+    TaskDTO taskDTO = new TaskDTO("blabla", Status.OPEN);
 
     @Test
     void getAllTasks_shouldReturnListOfTasks_whenIsBeenCalled() {
