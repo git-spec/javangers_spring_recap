@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 import com.example.javangers_spring_recap.model.Task;
 import com.example.javangers_spring_recap.repository.TaskRepo;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class TaskService {
     private final TaskRepo taskRepo;
-
-    public TaskService(TaskRepo taskRepo) {
-        this.taskRepo = taskRepo;
-    }
 
     public List<Task> getAllTasks() {
         return taskRepo.findAll();
