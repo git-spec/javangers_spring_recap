@@ -1,30 +1,44 @@
 package com.example.javangers_spring_recap.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-
-import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.when;
-
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import com.example.javangers_spring_recap.dto.TaskDTO;
 import com.example.javangers_spring_recap.model.Status;
 import com.example.javangers_spring_recap.model.Task;
 import com.example.javangers_spring_recap.repository.TaskRepo;
 
 
 public class TaskServiceTest {
-    TaskRepo mockRepo = mock(TaskRepo.class);
-    TaskService service = new TaskService(mockRepo);
+    TaskRepo mockRepo = Mockito.mock(TaskRepo.class);
+    IDService mockID = Mockito.mock(IDService.class);
+    TaskService service = new TaskService(mockRepo, mockID);
+    Task task = new Task("1", "blabla", Status.TODO);
+    TaskDTO taskDTO = new TaskDTO("blabla", Status.TODO);
 
     @Test
-    void testGetAllTasks_shouldReturnAllTasks_whenIsBeenCalled() {
+    void getAllTasks_shouldReturnListOfTasks_whenIsBeenCalled() {
         // GIVEN
-        List<Task> expected = List.of(new Task("1", "blabla", Status.TODO));
-        when(mockRepo.findAll()).thenReturn(expected);
+        List<Task> expected = List.of(task);
+        Mockito.when(mockRepo.findAll()).thenReturn(expected);
         // WHEN
         List<Task> actual = service.getAllTasks();
         // THEN
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void addTask_shouldReturnTask_whenGetData() {
+        // GIVEN
+        Mockito.when(mockID.createID()).thenReturn("1");
+        Mockito.when(mockRepo.save(task)).thenReturn(task);
+        // WHEN
+        Task actual = service.addTask(taskDTO);
+        // THEN
+        assertEquals(task, actual);
+        Mockito.verify(mockRepo).save(actual);
     }
 }
