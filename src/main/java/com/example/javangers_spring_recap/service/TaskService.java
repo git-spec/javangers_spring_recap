@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.javangers_spring_recap.dto.TaskDTO;
 import com.example.javangers_spring_recap.model.Task;
 import com.example.javangers_spring_recap.repository.TaskRepo;
 
@@ -18,5 +19,14 @@ public class TaskService {
 
     public List<Task> getAllTasks() {
         return taskRepo.findAll();
+    }
+
+    public Task addTask(TaskDTO task) {
+        Task newTask = new Task(
+            idService.createID(),
+            task.description(),
+            task.status()
+        );
+        return taskRepo.save(newTask);
     }
 }
