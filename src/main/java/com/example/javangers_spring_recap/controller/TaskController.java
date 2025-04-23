@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,13 +22,13 @@ public class TaskController {
         this.service = service;
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/todo")
     public List<Task> getAllTasks() {
         return service.getAllTasks();
     }
 
-    @PostMapping("/task")
-    public Task addTask(TaskDTO taskDTO) {
+    @PostMapping("/todo")
+    public Task addTask(@RequestBody TaskDTO taskDTO) {
         return service.addTask(taskDTO);
     }
 }
