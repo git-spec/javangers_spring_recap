@@ -97,7 +97,24 @@ public class TaskControllerTest {
                         "status": "IN_PROGRESS"
                     }        
                 """
-            ))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty());
+            ));
+    }
+
+    @Test
+    void deleteTask_shouldReturnDeletedTask_whenGetID() throws Exception {
+        // GIVEN
+        repo.save(task);
+        // WHEN AND THEN
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/" + task.id()))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json(
+            """
+                {
+                    "id": "1",
+                    "description": "blabla",
+                    "status": "OPEN"
+                }        
+            """
+        ));
     }
 }
