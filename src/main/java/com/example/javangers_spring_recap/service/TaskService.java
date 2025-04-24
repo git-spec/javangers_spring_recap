@@ -35,4 +35,12 @@ public class TaskService {
         );
         return taskRepo.save(newTask);
     }
+
+    public Task updateTask(Task updatedTask) throws TaskNotFoundException {
+        if (taskRepo.existsById(updatedTask.id())) {
+            return taskRepo.save(updatedTask);
+        } else {
+            throw new TaskNotFoundException("Task with id " + updatedTask.id() + " could not been found.");
+        }
+    }
 }
