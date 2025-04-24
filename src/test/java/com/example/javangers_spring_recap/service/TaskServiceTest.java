@@ -83,4 +83,17 @@ public class TaskServiceTest {
         assertEquals(task, actual);
         Mockito.verify(mockRepo).save(actual);
     }
+
+    @Test
+    void updateTask_shouldReturnTask_whenGetData() throws Exception {
+        // GIVEN
+        Task expected = new Task("1", "blabla", Status.IN_PROGRESS);
+        Mockito.when(mockRepo.existsById(id)).thenReturn(true);
+        Mockito.when(mockRepo.save(expected)).thenReturn(expected);
+        // WHEN
+        Task actual = service.updateTask(expected);
+        // THEN
+        assertEquals(expected, actual);
+        Mockito.verify(mockRepo).save(actual);
+    }
 }
