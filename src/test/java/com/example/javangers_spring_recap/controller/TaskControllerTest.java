@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -17,6 +18,7 @@ import com.example.javangers_spring_recap.repository.TaskRepo;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)    // Empties repo.
 public class TaskControllerTest {
     Task task = new Task("1", "blabla", Status.OPEN);
 
@@ -39,7 +41,7 @@ public class TaskControllerTest {
                         {
                             "id": "1",
                             "description": "blabla",
-                            "status": "TODO"
+                            "status": "OPEN"
                         }
                     ]        
                 """
@@ -48,7 +50,6 @@ public class TaskControllerTest {
 
     @Test
     void addTask_shouldReturnTask_whenGetData() throws Exception {
-        // GIVEN
         mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -66,6 +67,35 @@ public class TaskControllerTest {
                         "description": "blabla",
                         "status": "OPEN"
                     }     
+                """
+            ))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty());
+    }
+
+    @Test
+    void updateTask_shouldReturnTask_whenGetUpdatedTask() throws Exception {
+        // GIVEN
+        repo.save(task);
+        // WHEN AND THEN
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/" + task.id())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(
+                """
+                    {
+                        "id": "1",
+                        "description": "blabla",
+                        "status": "IN_PROGRESS"
+                    }        
+                """
+            ))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(
+                """
+                    {
+                        "id": "1",
+                        "description": "blabla",
+                        "status": "IN_PROGRESS"
+                    }        
                 """
             ))
             .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty());
