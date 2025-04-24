@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -54,6 +56,20 @@ public class TaskServiceTest {
         Task actual = service.getTaskByID(id);
         // THEN
         assertEquals(task, actual);
+    }
+
+    @Test
+    void getTaskByID_shouldThrowException_whenGetInvalidID() {
+        // GIVEN
+        Mockito.when(mockRepo.findById("2")).thenReturn(Optional.empty());
+        // WHEN
+        try {
+            service.getTaskByID("2");
+            fail();
+        // THEN
+        } catch(TaskNotFoundException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
