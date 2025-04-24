@@ -2,6 +2,7 @@ package com.example.javangers_spring_recap.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,17 @@ public class TaskServiceTest {
     Task task = new Task("1", "blabla", Status.OPEN);
     TaskDTO taskDTO = new TaskDTO("blabla", Status.OPEN);
     String id = "1";
+
+    @Test
+    void getAllTasks_shouldReturnEmptyList_whenIsBeenCalledInitially() {
+        // GIVEN
+        List<Task> expected = Collections.emptyList();
+        Mockito.when(mockRepo.findAll()).thenReturn(expected);
+        // WHEN
+        List<Task> actual = service.getAllTasks();
+        // THEN
+        assertEquals(expected, actual);
+    }
 
     @Test
     void getAllTasks_shouldReturnListOfTasks_whenIsBeenCalled() {
