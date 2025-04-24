@@ -85,7 +85,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void updateTask_shouldReturnTask_whenGetData() throws Exception {
+    void updateTask_shouldReturnTask_whenGetData() throws TaskNotFoundException {
         // GIVEN
         Task expected = new Task("1", "blabla", Status.IN_PROGRESS);
         Mockito.when(mockRepo.existsById(id)).thenReturn(true);
@@ -95,6 +95,22 @@ public class TaskServiceTest {
         // THEN
         assertEquals(expected, actual);
         Mockito.verify(mockRepo).save(actual);
+    }
+
+    @Test
+    void updateTask_shouldThrowExpection_whenGetInvalidData() {
+        // GIVEN
+        Task expected = new Task("2", "blabla", Status.IN_PROGRESS);
+        Mockito.when(mockRepo.existsById("2")).thenReturn(false);
+        Mockito.when(mockRepo.save(expected)).thenReturn(expected);
+        // WHEN
+        try {
+            service.updateTask(expected);
+            fail();
+        // THEN
+        } catch (TaskNotFoundException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
