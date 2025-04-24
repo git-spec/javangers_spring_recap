@@ -43,4 +43,14 @@ public class TaskService {
             throw new TaskNotFoundException("Task with id " + updatedTask.id() + " could not been found.");
         }
     }
+
+    public Task deleteTask(String id) throws TaskNotFoundException {
+        if (taskRepo.existsById(id)) {
+            Task deletedTask = taskRepo.findById(id).get();
+            taskRepo.deleteById(id);
+            return deletedTask;
+        } else {
+            throw new TaskNotFoundException("Task with id " + id + " could not been found.");
+        }
+    }
 }
