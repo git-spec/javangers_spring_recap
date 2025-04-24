@@ -96,4 +96,16 @@ public class TaskServiceTest {
         assertEquals(expected, actual);
         Mockito.verify(mockRepo).save(actual);
     }
+
+    @Test
+    void deleteTask_shouldReturnTrue_whenGetID() throws TaskNotFoundException {
+        // GIVEN
+        Mockito.when(mockRepo.existsById(id)).thenReturn(true);
+        Mockito.when(mockRepo.findById(id)).thenReturn(Optional.of(task));
+        // WHEN
+        Task actual = service.deleteTask(id);
+        // THEN
+        assertEquals(task, actual);
+        Mockito.verify(mockRepo).deleteById(id);
+    }
 }
