@@ -3,12 +3,14 @@ package com.example.javangers_spring_recap.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.javangers_spring_recap.dto.TaskDTO;
+import com.example.javangers_spring_recap.exception.TaskNotFoundException;
 import com.example.javangers_spring_recap.model.Task;
 import com.example.javangers_spring_recap.service.TaskService;
 
@@ -25,6 +27,11 @@ public class TaskController {
     @GetMapping("/todo")
     public List<Task> getAllTasks() {
         return service.getAllTasks();
+    }
+
+    @GetMapping("/todo/{id}")
+    public Task getTaskByID(@PathVariable String id) throws TaskNotFoundException {
+        return service.getTaskByID(id);
     }
 
     @PostMapping("/todo")
