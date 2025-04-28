@@ -76,6 +76,13 @@ public class TaskControllerTest {
     }
 
     @Test
+    void getTaskByID_shouldReturnException_whenCalledByInvalidID() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo/" + "123"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andExpect(MockMvcResultMatchers.content().string("Task with id 123 could not been found."));
+    }
+
+    @Test
     void addTask_shouldReturnTask_whenGetData() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
             .contentType(MediaType.APPLICATION_JSON)
