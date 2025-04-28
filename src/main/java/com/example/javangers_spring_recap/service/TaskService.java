@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.javangers_spring_recap.dto.TaskDTO;
 import com.example.javangers_spring_recap.exception.TaskNotFoundException;
+import com.example.javangers_spring_recap.model.Status;
 import com.example.javangers_spring_recap.model.Task;
 import com.example.javangers_spring_recap.repository.TaskRepo;
 
@@ -25,6 +26,13 @@ public class TaskService {
     public Task getTaskByID(String id) throws TaskNotFoundException {
         return taskRepo.findById(id)
             .orElseThrow(() -> new TaskNotFoundException("Task with id " + id + " could not been found."));
+    }
+
+    public List<Task> getTasksByStatus(String status) throws TaskNotFoundException {
+        Status reqStatus = Status.readValue(status);
+        return taskRepo.findAll().stream()
+            .filter(task -> task.status().equals(reqStatus))
+            .toList();
     }
 
     public Task addTask(TaskDTO task) {
