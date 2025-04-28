@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.javangers_spring_recap.dto.TaskDTO;
@@ -26,9 +27,22 @@ public class TaskController {
         this.service = service;
     }
 
-    @GetMapping("/todo")
-    public List<Task> getAllTasks() {
+    @GetMapping("/todos")
+    public List<Task> getTasks(@RequestParam(required = false) String status) throws TaskNotFoundException {
+        if (status != null) {
+            return service.getTasksByStatus(status);
+        } else {
+            return service.getAllTasks();
+        }
+    }
+
+
+    private List<Task> getAllTasks() {
         return service.getAllTasks();
+    }
+
+    private List<Task> getTasksByStatus(@RequestParam(required = false) String status) throws Exception {
+        return service.getTasksByStatus(status);
     }
 
     @GetMapping("/todo/{id}")
