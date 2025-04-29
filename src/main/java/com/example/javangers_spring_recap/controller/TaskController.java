@@ -19,7 +19,7 @@ import com.example.javangers_spring_recap.service.TaskService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/todo")
 public class TaskController {
     TaskService service;
 
@@ -27,7 +27,7 @@ public class TaskController {
         this.service = service;
     }
 
-    @GetMapping("/todos")
+    @GetMapping()
     public List<Task> getTasks(@RequestParam(required = false) String status) throws TaskNotFoundException {
         if (status != null) {
             return service.getTasksByStatus(status);
@@ -45,22 +45,22 @@ public class TaskController {
         return service.getTasksByStatus(status);
     }
 
-    @GetMapping("/todo/{id}")
+    @GetMapping("/{id}")
     public Task getTaskByID(@PathVariable String id) throws TaskNotFoundException {
         return service.getTaskByID(id);
     }
 
-    @PostMapping("/todo")
+    @PostMapping()
     public Task addTask(@RequestBody TaskDTO taskDTO) {
         return service.addTask(taskDTO);
     }
 
-    @PutMapping("/todo/{id}")
+    @PutMapping("/{id}")
     public Task updateTask(@RequestBody Task updatedTask) throws TaskNotFoundException {
         return service.updateTask(updatedTask);
     }
 
-    @DeleteMapping("/todo/{id}")
+    @DeleteMapping("/{id}")
     public Task deleteTask(@PathVariable String id) throws TaskNotFoundException {
         return service.deleteTask(id);
     }
