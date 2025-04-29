@@ -36,15 +36,6 @@ public class TaskController {
         }
     }
 
-
-    private List<Task> getAllTasks() {
-        return service.getAllTasks();
-    }
-
-    private List<Task> getTasksByStatus(@RequestParam(required = false) String status) throws Exception {
-        return service.getTasksByStatus(status);
-    }
-
     @GetMapping("/{id}")
     public Task getTaskByID(@PathVariable String id) throws TaskNotFoundException {
         return service.getTaskByID(id);
