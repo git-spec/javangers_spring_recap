@@ -20,8 +20,8 @@ import com.example.javangers_spring_recap.repository.TaskRepo;
 public class TaskServiceTest {
     TaskRepo mockRepo = Mockito.mock(TaskRepo.class);
     IDService mockID = Mockito.mock(IDService.class);
-    ChatGPTService gptService = Mockito.mock(ChatGPTService.class);
-    TaskService service = new TaskService(mockRepo, mockID, gptService);
+    ChatGPTService mockGptService = Mockito.mock(ChatGPTService.class);
+    TaskService service = new TaskService(mockRepo, mockID, mockGptService);
     Task task = new Task("1", "blabla", Status.OPEN);
     TaskDTO taskDTO = new TaskDTO("blabla", Status.OPEN);
     String id = "1";
@@ -78,6 +78,10 @@ public class TaskServiceTest {
         // GIVEN
         Mockito.when(mockID.createID()).thenReturn("1");
         Mockito.when(mockRepo.save(task)).thenReturn(task);
+        Mockito.when(
+            mockGptService
+                .checkForSpellingErrors("blabla")
+        ).thenReturn("blabla");
         // WHEN
         Task actual = service.addTask(taskDTO);
         // THEN

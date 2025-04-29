@@ -40,15 +40,9 @@ public class TaskService {
     }
 
     public Task addTask(TaskDTO task) {
-        ChatGPTMessage gptMessage = new ChatGPTMessage(
-            "user", 
-            "Bitte gib den folgenden Text ohne Rechtschreibfehler zurück: " + task.description()
-        );
-        ChatGPTRequest gptRequest = new ChatGPTRequest("gpt-4.1", List.of(gptMessage));
-        ChatGPTResponse gptResponse = gptService.checkForSpellingErrors(gptRequest);
         Task newTask = new Task(
             idService.createID(),
-            gptResponse.choices().getFirst().message().content(),
+            gptService.checkForSpellingErrors(task.description()),
             task.status()
         );
         return taskRepo.save(newTask);
