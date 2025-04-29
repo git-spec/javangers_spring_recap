@@ -20,7 +20,8 @@ import com.example.javangers_spring_recap.repository.TaskRepo;
 public class TaskServiceTest {
     TaskRepo mockRepo = Mockito.mock(TaskRepo.class);
     IDService mockID = Mockito.mock(IDService.class);
-    TaskService service = new TaskService(mockRepo, mockID);
+    ChatGPTService gptService = Mockito.mock(ChatGPTService.class);
+    TaskService service = new TaskService(mockRepo, mockID, gptService);
     Task task = new Task("1", "blabla", Status.OPEN);
     TaskDTO taskDTO = new TaskDTO("blabla", Status.OPEN);
     String id = "1";
